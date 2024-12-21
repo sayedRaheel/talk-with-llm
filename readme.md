@@ -6,6 +6,62 @@ A voice-based AI assistant that creates a natural conversation flow by combining
 🧠 Groq LLaMA - Processes and understands your message
 🔊 OpenAI TTS - Converts the AI response back to speech
 
+## Audio Recording Details
+
+The voice assistant uses `sounddevice` to handle real-time audio recording. Here's how it works:
+
+### Recording Process
+```python
+import sounddevice as sd
+from scipy.io.wavfile import write
+
+def record_and_process(duration=3, freq=44100, filename="recording.wav"):
+    # Start recording
+    recording = sd.rec(int(duration * freq),
+                      samplerate=freq,
+                      channels=1)
+    
+    # Wait for the recording to complete
+    sd.wait()
+    
+    # Save as WAV file
+    write(filename, freq, recording)
+```
+
+### Recording Parameters
+- **Duration**: Default 3 seconds (adjustable)
+- **Frequency**: 44.1kHz (CD quality)
+- **Channels**: Mono (1 channel)
+- **Format**: WAV file
+- **Bit Depth**: 16-bit
+
+### Audio Processing Pipeline
+1. **Recording**: Captures audio through your microphone
+2. **Saving**: Stores as temporary WAV file
+3. **Processing**: Sends to Groq's Whisper for transcription
+4. **Cleanup**: Temporary files are managed automatically
+
+### Customizing Recording
+
+Change recording duration:
+```python
+# Record for 5 seconds
+result = record_and_process(duration=5)
+```
+
+Use different audio quality:
+```python
+# Use higher sampling rate
+result = record_and_process(freq=48000)
+```
+
+Custom output file:
+```python
+# Save to specific file
+result = record_and_process(filename="my_speech.wav")
+```
+
+
 ## Project Structure
 ```
 voice-llms/
