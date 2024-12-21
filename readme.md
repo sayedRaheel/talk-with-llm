@@ -10,9 +10,7 @@ A voice-based AI assistant that creates a natural conversation flow by combining
 ```
 voice-llms/
 ├── voice_llms.py        # Main functionality
-├── requirements.txt     # Project dependencies
-├── .env                # Environment variables (create this)
-└── LICENSE             # MIT License
+└── requirements.txt     # Project dependencies
 ```
 
 ## Features
@@ -36,15 +34,36 @@ cd voice-llms
 pip install -r requirements.txt
 ```
 
-3. **Set up environment variables**
+3. **Set up API Keys**
 
-Create a `.env` file in the project root:
-```env
+You have two options to set up your API keys:
+
+Option 1: Direct in code (Quick testing)
+```python
+# In voice_llms.py
+groq_client = Groq(api_key="your_groq_api_key")
+openai_client = OpenAI(api_key="your_openai_api_key")
+```
+
+Option 2: Environment variables (Recommended for development)
+```bash
+# Export in terminal
+export GROQ_API_KEY="your_groq_api_key"
+export OPENAI_API_KEY="your_openai_api_key"
+
+# Or create .env file
 GROQ_API_KEY=your_groq_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 4. **Run the assistant**
+
+Simple run:
+```bash
+python voice_llms.py
+```
+
+Or import in your code:
 ```python
 from voice_llms import record_and_process
 
@@ -56,7 +75,10 @@ result = record_and_process(duration=3)  # Records for 3 seconds
 
 ### Basic Usage
 ```python
-# Import the main function
+# Direct run
+python voice_llms.py
+
+# Or import and use
 from voice_llms import record_and_process
 
 # Record and process speech
@@ -94,7 +116,7 @@ result = record_and_process(filename="my_recording.wav")
 - pygame: Audio playback
 - groq: Whisper STT and LLaMA
 - openai: TTS service
-- python-dotenv: Environment management
+- python-dotenv: Environment management (optional)
 
 ## Configuration
 
@@ -121,54 +143,27 @@ tts_response = openai_client.audio.speech.create(
 
 ## Error Handling
 
-The script includes error handling for:
-- Audio recording issues
-- API connection problems
-- File handling errors
+Common errors and solutions:
 
-Errors are caught and printed with descriptive messages:
-```python
-try:
-    result = record_and_process()
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
-```
+1. **Audio device not found**
+   - Ensure microphone is connected
+   - Check system audio settings
 
-## Contributing
+2. **API Key errors**
+   - Verify API keys are correct
+   - If using environment variables, ensure they're properly set
+   - If using direct keys, check for typos
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. **Audio playback issues**
+   - Ensure speakers/headphones are connected
+   - Check pygame initialization
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
 - [Groq](https://groq.com/) for Whisper and LLaMA models
 - [OpenAI](https://openai.com/) for TTS service
 - All open-source package contributors
-
-## Common Issues & Solutions
-
-1. **Audio device not found**
-   - Ensure your microphone is connected and properly set up
-   - Check system audio settings
-
-2. **API Key errors**
-   - Verify your API keys in the `.env` file
-   - Check for proper environment variable loading
-
-3. **Audio playback issues**
-   - Ensure speakers/headphones are connected
-   - Check pygame initialization
-
-## Support
-
-For support, please:
-1. Check existing [issues](your-repo-issues-url)
-2. Create a new issue with detailed description
-3. Include error messages and environment details
