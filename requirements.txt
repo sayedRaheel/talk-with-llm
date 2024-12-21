@@ -1,0 +1,9 @@
+sounddevice
+scipy
+wavio
+pydub
+pygame
+Pyaudio
+groq
+openai
+python-dotenv
